@@ -49,6 +49,13 @@ alias ll='colorls --group-directories-first --almost-all --long' # detailed list
 alias node8='nvm alias default 8'
 alias node10='nvm alias default 10'
 
+# Manage mongo
+alias mongo-start='sudo service mongod start'
+alias mongo-stop='sudo service mongod stop'
+alias mongo-restart='sudo service mongod restart'
+alias mongo-status='sudo systemctl status mongod'
+alias mongo-log='sudo nano /var/log/mongodb/mongod.log '
+
 
 
 # |=================================== Plugins ===================================|
@@ -65,17 +72,10 @@ source /usr/share/autojump/autojump.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
 
 # sintax highlighting
-echo "source ${(q-)PWD}/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+echo "source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 
 # Set Spaceship ZSH as a prompt
   autoload -U promptinit; promptinit
   prompt spaceship
 
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
