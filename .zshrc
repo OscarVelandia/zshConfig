@@ -54,16 +54,18 @@ alias mongo-start='sudo service mongod start'
 alias mongo-stop='sudo service mongod stop'
 alias mongo-restart='sudo service mongod restart'
 alias mongo-status='sudo systemctl status mongod'
-alias mongo-log='sudo nano /var/log/mongodb/mongod.log '
+alias mongo-log='sudo nano /var/log/mongodb/mongod.log'
 
+# Manage mysql
+alias mysql-start='sudo service mysql start'
+alias mysql-stop='sudo service mysql stop'
+alias mysql-restart='sudo service mysql restart'
+alias mysql-status='sudo systemctl status mysql'
 
 
 # |=================================== Plugins ===================================|
 
 fpath=($fpath "/home/leafnoise/.zfunctions")
-
-# Allow the use of the z plugin to easily navigate directories
-source /usr/local/etc/profile.d/z.sh
 
 # Set autojump
 source /usr/share/autojump/autojump.sh
