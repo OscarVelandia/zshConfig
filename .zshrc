@@ -2,36 +2,21 @@
 
 # Config de NVM
 export NVM_DIR=~/.nvm
- [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# Automatically switch node versions when a directory has a `.nvmrc` file
-autoload -U add-zsh-hook
 
-# Zsh hook function
-load-nvmrc() {
-    local node_version="$(nvm version)" # Current node version
-    local nvmrc_path="$(nvm_find_nvmrc)" # Path to the .nvmrc file
-    # Check if there exists a .nvmrc file
-    if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-    # Check if the node version in .nvmrc is installed on the computer
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-        # Install the node version in .nvmrc on the computer and switch to that node version
-        nvm install
-    # Check if the current node version matches the version in .nvmrc
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-        # Switch node versions
-        nvm use
+#docker
+docker-ssh() {
+    if (( $# == 0 ))
+    then
+        echo "USAGE: docker_ssh <container name | container id>"
+        return
     fi
-    # If there isn't an .nvmrc make sure to set the current node version to the default node version
-    elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-    fi
+    name=$1
+    echo "Connecting to $name"
+    docker exec -i -t $name /bin/bash
 }
-# Add the above function when the present working directory (pwd) changes
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
 
 # |=================================== Comands ===================================|
 
@@ -46,8 +31,8 @@ alias l='colorls --group-directories-first --almost-all'
 alias ll='colorls --group-directories-first --almost-all --long' # detailed list view
 
 # Use differents node versions
-alias node8='nvm alias default 8'
-alias node10='nvm alias default 10'
+alias node8='nvm use --lts=carbon && nvm alias default 8'
+alias node10='nvm use --lts=dubnium && nvm alias default 10'
 
 # Manage mongo
 alias mongo-start='sudo service mongod start'
@@ -60,12 +45,23 @@ alias mongo-log='sudo nano /var/log/mongodb/mongod.log'
 alias mysql-start='sudo service mysql start'
 alias mysql-stop='sudo service mysql stop'
 alias mysql-restart='sudo service mysql restart'
-alias mysql-status='sudo systemctl status mysql'
+alias mysql-status='sudo systemctl status mysql.service'
+
+# GIT
+alias remote-branches='git branch -a -v'
+alias list-stash='git stash list'
+alias apply-stash='git stash apply'
+alias create-branch='git checkout -b'
+alias delete-branch='git branch -d'
+alias uncommit='git reset HEAD~'
 
 
 # |=================================== Plugins ===================================|
 
 fpath=($fpath "/home/leafnoise/.zfunctions")
+
+# Allow the use of the z plugin to easily navigate directories
+source /usr/local/etc/profile.d/z.sh
 
 # Set autojump
 source /usr/share/autojump/autojump.sh
@@ -74,10 +70,9 @@ source /usr/share/autojump/autojump.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
 
 # sintax highlighting
-echo "source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh >> ${ZDOTDIR:-$HOME}/.zshrc
 
 # Set Spaceship ZSH as a prompt
   autoload -U promptinit; promptinit
   prompt spaceship
-
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
