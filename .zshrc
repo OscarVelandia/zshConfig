@@ -1,10 +1,8 @@
 # |=================================== NVM ===================================|
 
 # Config de NVM
-export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 #docker
 docker-ssh() {
@@ -21,14 +19,10 @@ docker-ssh() {
 # |=================================== Comands ===================================|
 
 # Open .zshrc to be edited in VS Code
-alias change="vscodium ~/.zshrc"
+alias change="code ~/.zshrc"
 
 # Re-run source command on .zshrc to update current terminal session with new settings
 alias update="source ~/.zshrc"
-
-# Visualizacion de la lista de docs
-alias l='colorls --group-directories-first --almost-all'
-alias ll='colorls --group-directories-first --almost-all --long' # detailed list view
 
 # Use differents node versions
 alias node8='nvm use --lts=carbon && nvm alias default 8'
@@ -54,25 +48,13 @@ alias apply-stash='git stash apply'
 alias create-branch='git checkout -b'
 alias delete-branch='git branch -d'
 alias uncommit='git reset HEAD~'
+alias list-last-commit='git log --name-status HEAD^..HEAD'
+alias git-graph='git log --all --decorate --graph --oneline'
+# con este comando se muestran las diferencias de 2 ramas, sin seguir la carpeta node_modules
+# git diff master origin/master . ':!node_modules' | grep diff
 
 
-# |=================================== Plugins ===================================|
 
-fpath=($fpath "/home/leafnoise/.zfunctions")
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Allow the use of the z plugin to easily navigate directories
-source /usr/local/etc/profile.d/z.sh
-
-# Set autojump
-source /usr/share/autojump/autojump.sh
-
-# Tab completion for colorls
-source $(dirname $(gem which colorls))/tab_complete.sh
-
-# sintax highlighting
-source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# source /home/leafnoise/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh >> ${ZDOTDIR:-$HOME}/.zshrc
-
-# Set Spaceship ZSH as a prompt
-  autoload -U promptinit; promptinit
-  prompt spaceship
+source /home/leafnoise/.zsh/BlaCk-Void.zshrc
