@@ -50,7 +50,7 @@ alias delete-branch='git branch -d'
 alias uncommit='git reset HEAD~'
 alias list-last-commit='git log --name-status HEAD^..HEAD'
 alias git-graph='git log --all --decorate --graph --oneline'
-# con este comando se muestran las diferencias de 2 ramas, sin seguir la carpeta node_modules
+# con este comando se muestran las diferencias de 2 branch, sin seguir la carpeta node_modules
 # git diff master origin/master . ':!node_modules' | grep diff
 
 
