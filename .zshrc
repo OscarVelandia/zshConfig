@@ -1,4 +1,15 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # |=================================== Configs ===================================|
+# Config nvim
+export VISUAL=nvim
+export VIMCONFIG=~/.config/nvim
+export VIMDATA=~/.local/share/nvim
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -28,7 +39,7 @@ add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
 # Deno
-export DENO_INSTALL="/home/oscar/.deno"
+export DENO_INSTALL="/home/anonimoinc/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
 
@@ -44,6 +55,11 @@ docker-ssh() {
     docker exec -i -t $name /bin/bash
 } 
 
+# Ruby
+export PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
+
+# Yarn
+export PATH="$PATH:$(yarn global bin)"
 
 # Android - React native
 export ANDROID_HOME=$HOME/Android/Sdk
@@ -52,16 +68,22 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# Ruby
-export PATH="$PATH:$(ruby -e 'puts Gem.user_dir')/bin"
+# ZSH History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
 
 # |=================================== Comands ===================================|
 
-# System comands
+# Update system
 alias system-update="sudo pacman -Syyu -yy"
+alias aur-update="yay -Syu"
+alias p10k-update="git -C ~/powerlevel10k pull"
 
 # Open .zshrc to be edited in VS Code
 alias change="code ~/.zshrc"
+alias shell-config="~/.p10k.zsh"
 
 # Re-run source command on .zshrc to update current terminal session with new settings
 alias update="source ~/.zshrc"
@@ -76,6 +98,11 @@ alias docker-status='systemctl status docker'
 # init KVM service
 alias init-kvm='sudo systemctl start libvirtd.service'
 
+# ls colors
+alias l='colorls --report'
+alias ll='colorls -lA --sd'
+alias llt='colorls --tree=2'
+
 
 # GIT
 alias remote-branches='git branch -a -v'
@@ -88,3 +115,15 @@ alias list-last-commit='git log --name-status HEAD^..HEAD'
 alias git-graph='git log --all --decorate --graph --oneline'
 # con este comando se muestran las diferencias de 2 branch, sin seguir la carpeta node_modules
 # git diff master origin/master . ':!node_modules' | grep diff
+
+# ZSH plugins
+source /etc/profile.d/autojump.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/forgit/forgit.plugin.zsh
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
